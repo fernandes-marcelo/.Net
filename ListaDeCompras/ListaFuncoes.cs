@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +20,21 @@ namespace ListaDeCompras
 
         public void AdicionarItem(Item itens)
         {
-            bancoLista.Itens.Add(itens);
+            string queryInsert = "INSERT INTO ### VALUES('"+itens.NomeProduto+"');";
+            var QueryResult = bancoLista.Database.SqlQuery<string>(queryInsert);
+            //bancoLista.Itens.Add(itens);
             bancoLista.SaveChanges();
         }
 
         public void RemoverItem(Item itens)
         {
-            var obj = bancoLista.Itens.Where(x => x.NomeProduto == itens.NomeProduto);
-            bancoLista.Itens.Remove(obj);
+            string queryDrop = "DELETE TABLE ITENS WHERE NOME = '" + itens.NomeProduto + "';";
+
+            var QueryResult = bancoLista.Itens.SqlQuery(queryDrop);
+            bancoLista.SaveChanges();
+            //
+
+            // int query2Drop = bancoLista.Database.ExecuteSqlCommand("DELETE TABLE ##### WHERE NOME = @nome", new SqlParameter("@nome", itens.NomeProduto)); -- será que funciona ?
         }
 
 
@@ -36,5 +44,16 @@ namespace ListaDeCompras
             return bancoLista.Itens.ToList();
         }
 
+
+        public IEnumerable<Item> ListarCustom()
+        {
+            var ResultCustomQuery = bancoLista.Itens.SqlQuery("SELECT * FROM ITENS").ToList<Item>();
+            return ResultCustomQuery;
+        }
     }
 }
+
+
+
+//Database.SqlQuery ()
+//Database.ExecuteSqlCommand ()

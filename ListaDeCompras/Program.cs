@@ -47,6 +47,7 @@ namespace ListaDeCompras
                             }
                             Console.Write("\n\t\t Qual item deseja remover da lista?");
                             produto.NomeProduto = Console.ReadLine();
+                            app.RemoverItem(produto);
 
 
                             break;

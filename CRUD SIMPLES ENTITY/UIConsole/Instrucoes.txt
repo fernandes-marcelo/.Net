@@ -1,0 +1,10 @@
+
+
+
+
+
+Enable-Migrations
+
+Add-Migrations TituloParaMinhaMigration
+
+Update-Database
